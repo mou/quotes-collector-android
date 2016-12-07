@@ -14,6 +14,10 @@ import com.akimi808.quotescollector.model.Quote;
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder> {
     private QuoteManager quoteManager;
 
+    public QuoteAdapter(QuoteManager quoteManager) {
+        this.quoteManager = quoteManager;
+    }
+
     //метод вызывается, когда RecyclerView нуждается еще одном экз. View элемента
     @Override
     public QuoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

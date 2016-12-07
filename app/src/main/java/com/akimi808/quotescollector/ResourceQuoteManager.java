@@ -10,6 +10,11 @@ import com.akimi808.quotescollector.model.Quote;
 public class ResourceQuoteManager implements QuoteManager {
     //класс в Android для доступа к ресурсам приложения
     private Resources resources;
+
+    public ResourceQuoteManager(Resources resources) {
+        this.resources = resources;
+    }
+
     @Override
     public int getQuoteCount() {
         String[] quoteTexts = resources.getStringArray(R.array.quote_texts);

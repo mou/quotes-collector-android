@@ -18,7 +18,8 @@ public class QuotesListActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
         rv.setLayoutManager(llm);
-        rv.setAdapter(new QuoteAdapter());
+        QuoteManager quoteManager = new ResourceQuoteManager(getResources());
+        rv.setAdapter(new QuoteAdapter(quoteManager));
     }
 
 }
