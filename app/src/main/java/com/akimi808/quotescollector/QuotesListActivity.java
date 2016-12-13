@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.akimi808.quotescollector.db.DbQuoteManager;
+import com.akimi808.quotescollector.db.QuoteDbOpenHelper;
+
 public class QuotesListActivity extends AppCompatActivity {
 
     @Override
@@ -18,7 +21,7 @@ public class QuotesListActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
         rv.setLayoutManager(llm);
-        QuoteManager quoteManager = new ResourceQuoteManager(getResources());
+        QuoteManager quoteManager = new DbQuoteManager(new QuoteDbOpenHelper(this, getResources()));
         rv.setAdapter(new QuoteAdapter(quoteManager));
     }
 
