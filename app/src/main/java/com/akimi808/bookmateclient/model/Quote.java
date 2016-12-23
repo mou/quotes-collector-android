@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class Quote {
     private String uuid;
     private User user;
+    //аннотация, кот. говорит, что в ответе сервера будет будет документ
     @SerializedName("document_uuid")
     private String documentUuid;
     private String content;

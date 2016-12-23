@@ -6,10 +6,10 @@ package com.akimi808.quotescollector.model;
 
 public class Quote {
     private final String text;
-    private final String author;
-    private final String source;
+    private final Author author;
+    private final Source source;
 
-    public Quote(String text, String author, String source) {
+    public Quote(String text, Author author, Source source) {
         this.text = text;
         this.author = author;
         this.source = source;
@@ -19,11 +19,11 @@ public class Quote {
         return text;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public String getSource() {
+    public Source getSource() {
         return source;
     }
 }
