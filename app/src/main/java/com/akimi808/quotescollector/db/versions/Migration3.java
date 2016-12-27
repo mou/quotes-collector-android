@@ -59,9 +59,9 @@ public class Migration3 implements Migration {
             ContentValues values = new ContentValues();
             values.put("author_id", authorId);
             db.update("quotes", values, "id = " + quoteId, null);
-
-
+            authors.close();
         }
+        quotes.close();
     }
 
     private void deleteAuthorColumn(SQLiteDatabase db) {
