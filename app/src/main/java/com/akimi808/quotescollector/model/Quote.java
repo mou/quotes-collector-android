@@ -26,4 +26,13 @@ public class Quote {
     public Source getSource() {
         return source;
     }
+
+    @Override
+    public String toString() {
+        return "Quote{" +
+                "text='" + text + '\'' +
+                ", author=" + author +
+                ", source=" + source +
+                '}';
+    }
 }

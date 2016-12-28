@@ -53,8 +53,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
 
         public void bind(Quote quote) {
             quoteText.setText(quote.getText());
-            authorText.setText(quote.getAuthor());
-            sourceText.setText(quote.getSource());
+            authorText.setText(quote.getAuthor().getName());
+            sourceText.setText(quote.getSource().getTitle());
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.res.Resources;
 
 import com.akimi808.quotescollector.db.versions.Migration1;
 import com.akimi808.quotescollector.db.versions.Migration2;
+import com.akimi808.quotescollector.db.versions.Migration3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class MigrationManager {
         migrations = new ArrayList<>();
         migrations.add(new Migration1());
         migrations.add(new Migration2(resources));
+        migrations.add(new Migration3());
     }
     //дает миграцию до нужной версии
     public Migration getMigration(int ver) {

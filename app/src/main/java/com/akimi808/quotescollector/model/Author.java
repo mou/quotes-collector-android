@@ -5,19 +5,27 @@ package com.akimi808.quotescollector.model;
  */
 
 public class Author {
-    private Integer id;
+    private Long id;
     private String name;
 
-    public Author(Integer id, String name) {
+    public Author(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

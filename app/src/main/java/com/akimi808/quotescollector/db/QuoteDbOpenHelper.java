@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 //Помогает открыть, создать, изменить БД, переходить между версиями
 public class QuoteDbOpenHelper extends SQLiteOpenHelper {
     private static final String DATABEASE_NAME = "quotes.db";
-    private static final int DATABASE_VER = 2;
+    private static final int DATABASE_VER = 3;
     private final MigrationManager migrationManager;
 
     public QuoteDbOpenHelper(Context context, Resources resources) {
