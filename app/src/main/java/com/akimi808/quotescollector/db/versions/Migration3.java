@@ -65,7 +65,14 @@ public class Migration3 implements Migration {
     }
 
     private void deleteAuthorColumn(SQLiteDatabase db) {
-        db.execSQL("ALTER TABLE quotes DROP COLUMN author;");
+        db.execSQL("CREATE TABLE quotes_mod (\n" +
+                "        id INTEGER PRIMARY KEY,\n" +
+                "        text TEXT,\n" +
+                "        author_id INTEGER,\n" +
+                "        source TEXT)");
+        db.execSQL("INSERT INTO quotes_mod (id, text, author_id, source) SELECT id, text, author_id, source FROM quotes;");
+        db.execSQL("DROP TABLE quotes;");
+        db.execSQL("ALTER TABLE quotes_mod RENAME TO quotes;");
     }
 
 
