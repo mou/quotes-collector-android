@@ -23,7 +23,9 @@ public class QuoteDbOpenHelper extends SQLiteOpenHelper {
     //вызовется один раз, когда класс создаст файл БД
     public void onCreate(SQLiteDatabase db) {
         //метод исполняет указанный SQL-запрос, указанный в переданной строке
-        migrationManager.getMigration(1).doUpgrade(db);
+        for (int i = 1; i <= DATABASE_VER; i++) {
+            migrationManager.getMigration(i).doUpgrade(db);
+        }
     }
 
     @Override
