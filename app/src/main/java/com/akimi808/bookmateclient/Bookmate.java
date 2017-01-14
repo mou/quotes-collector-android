@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 /**
  * @author Andrey Larionov
- * Библиотека Retrofit во время работы программы самасоздаст класс, который реализует этот интерфейс
+ * Библиотека Retrofit во время работы программы сама создаст класс, который реализует этот интерфейс
  */
 public interface Bookmate {
     @GET("/a/4/u/{user}/m.json")
