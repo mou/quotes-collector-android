@@ -26,16 +26,16 @@ public class Migration3 implements Migration {
         db.execSQL("ALTER TABLE quotes ADD COLUMN author_id INTEGER;");
     }
     /*
-        //Для каждой записи в таблице Quote
+        //Для каждой записи в таблице BookmateQuote
         //query - метод, выполняющий SQL-запрос на выбор записей из базы данных, возвращает Cursor
         //создание массива с содержимым
             //берем значение поля author
-            //ищем в таблице author запись, у которой поле name == Quote.Author
+            //ищем в таблице author запись, у которой поле name == BookmateQuote.Author
                 //если запись найдена:
-                    //записываем в таблицу Quote в поле author_id значение id у найденной записи
+                    //записываем в таблицу BookmateQuote в поле author_id значение id у найденной записи
                 //если нет:
-                    //создаем запись в таблице authors, и указываем значение поля name значение из Quote.Author
-                    //берем значение id у созданной записи и помещаем его в поле Quote.Author_id
+                    //создаем запись в таблице authors, и указываем значение поля name значение из BookmateQuote.Author
+                    //берем значение id у созданной записи и помещаем его в поле BookmateQuote.Author_id
      */
     private void extractAuthorsFromQuotesTable(SQLiteDatabase db) {
 

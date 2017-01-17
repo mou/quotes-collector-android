@@ -5,18 +5,33 @@ package com.akimi808.quotescollector.model;
  */
 
 public class Quote {
+    private final Long id;
     private final String text;
+    private final String externalId;
     private final Author author;
     private final Source source;
+    private final String application;
 
-    public Quote(String text, Author author, Source source) {
+
+    public Quote(Long id, String text, String externalId, Author author, Source source, String application) {
+        this.id = id;
         this.text = text;
+        this.externalId = externalId;
         this.author = author;
         this.source = source;
+        this.application = application;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getText() {
         return text;
+    }
+
+    public String getExternalId() {
+        return externalId;
     }
 
     public Author getAuthor() {
@@ -27,9 +42,13 @@ public class Quote {
         return source;
     }
 
+    public String getApplication() {
+        return application;
+    }
+
     @Override
     public String toString() {
-        return "Quote{" +
+        return "BookmateQuote{" +
                 "text='" + text + '\'' +
                 ", author=" + author +
                 ", source=" + source +

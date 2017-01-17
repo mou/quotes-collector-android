@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * @author Andrey Larionov
  */
-public class Quote {
+public class BookmateQuote {
     private String uuid;
     private User user;
     //аннотация, кот. говорит, что в ответе сервера будет будет документ
@@ -36,7 +36,7 @@ public class Quote {
 
     @Override
     public String toString() {
-        return "Quote{" +
+        return "BookmateQuote{" +
                 "uuid='" + uuid + '\'' +
                 ", user=" + user +
                 ", documentUuid='" + documentUuid + '\'' +

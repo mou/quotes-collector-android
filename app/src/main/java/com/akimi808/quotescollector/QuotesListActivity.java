@@ -9,11 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.akimi808.bookmateclient.Bookmate;
 import com.akimi808.bookmateclient.model.Book;
-import com.akimi808.bookmateclient.model.Quote;
+import com.akimi808.bookmateclient.model.BookmateQuote;
 import com.akimi808.quotescollector.db.DbQuoteManager;
 import com.akimi808.quotescollector.db.QuoteDbOpenHelper;
 
@@ -83,13 +82,13 @@ public class QuotesListActivity extends AppCompatActivity {
             Set<String> downloadedBooks = new HashSet<>();
             do {
                 //возвращает promise, что внутри объекта появится список с цитатами, обещание сделать работу
-                Call<List<Quote>> quotes = bookmate.quotes("vkontakte085", false, page, 10);
+                Call<List<BookmateQuote>> quotes = bookmate.quotes("vkontakte085", false, page, 10);
                 try {
                     //результат выполнения работы, ответ сервера, там м.б. ошибка
-                    Response<List<Quote>> response = quotes.execute();
-                    List<Quote> quoteList = response.body();
+                    Response<List<BookmateQuote>> response = quotes.execute();
+                    List<BookmateQuote> quoteList = response.body();
                     quoteListSize = quoteList.size();
-                    for (Quote quote : quoteList) {
+                    for (BookmateQuote quote : quoteList) {
                         Log.d("Sync", quote.toString());
                         String documentUuid = quote.getDocumentUuid();
                         if (!downloadedBooks.contains(documentUuid)) {

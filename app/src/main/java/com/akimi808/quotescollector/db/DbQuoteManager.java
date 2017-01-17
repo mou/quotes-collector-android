@@ -45,11 +45,16 @@ public class DbQuoteManager implements QuoteManager {
                     "ORDER BY q.id asc " +
                     "LIMIT " + limit, null);
             if (cursor.moveToFirst()) {
+                Long id = cursor.getLong(cursor.getColumnIndex("quote_id"));
                 String text = cursor.getString(cursor.getColumnIndex("quote_text"));
                 Long authorId = cursor.getLong(cursor.getColumnIndex("author_id"));
                 String authorName = cursor.getString(cursor.getColumnIndex("author_name"));
                 String source = cursor.getString(cursor.getColumnIndex("quote_source"));
-                Quote quote = new Quote(text, new Author(authorId, authorName), new Source(null, source, "book", " "));
+                Author author = new Author(authorId, authorName);
+                Source book = new Source(null, source, "book", " ");
+                String externalId = null;
+                String application = null;
+                Quote quote = new Quote(id, text, externalId, author, book, application);
                 Log.d("DB", "For index [" + index + "] from DB retreived quote " + quote.toString());
                 return quote;
             }
