@@ -23,7 +23,9 @@ public class Migration4 implements Migration {
     private void createSourceTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE sources (\n" +
                 "        id INTEGER PRIMARY KEY,\n" +
-                "        name TEXT);\n");
+                "        title TEXT, \n" +
+                "        type TEXT, \n" +
+                "        application TEXT);\n");
         //добавляем столбец source_id в таблицу quotes
         db.execSQL("ALTER TABLE quotes ADD COLUMN source_id INTEGER;");
     }
@@ -38,13 +40,13 @@ public class Migration4 implements Migration {
 
             String[] sourceColumns = new String[] {"id"};
             String[] args = new String[] {sourceName};
-            Cursor sources = db.query("sources", sourceColumns, "name = ?", args, null, null, null);
+            Cursor sources = db.query("sources", sourceColumns, "title = ?", args, null, null, null);
             Long sourceId;
             if (sources.moveToNext()) {
                 sourceId = sources.getLong(sources.getColumnIndex("id"));
             } else {
                 ContentValues insertValues = new ContentValues();
-                insertValues.put("name", sourceName);
+                insertValues.put("title", sourceName);
                 sourceId = db.insert("sources", null, insertValues);
             }
             ContentValues values = new ContentValues();

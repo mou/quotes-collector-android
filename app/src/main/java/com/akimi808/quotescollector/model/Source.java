@@ -5,19 +5,19 @@ package com.akimi808.quotescollector.model;
  */
 
 public class Source {
-    private Integer id;
+    private Long id;
     private String title;
     private String type;
     private String application;
 
-    public Source(Integer id, String title, String type, String application) {
+    public Source(Long id, String title, String type, String application) {
         this.id = id;
         this.title = title;
         this.type = type;
         this.application = application;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

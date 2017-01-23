@@ -28,6 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuotesListActivity extends AppCompatActivity {
 
+    private QuoteManager quoteManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class QuotesListActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
         rv.setLayoutManager(llm);
-        QuoteManager quoteManager = new DbQuoteManager(new QuoteDbOpenHelper(this, getResources()));
+        quoteManager = new DbQuoteManager(new QuoteDbOpenHelper(this, getResources()));
         rv.setAdapter(new QuoteAdapter(quoteManager));
     }
 
@@ -54,7 +56,7 @@ public class QuotesListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_menu_sync:
-                new SynchronizeTask().execute((Void[]) null);
+                new SynchronizeTask(quoteManager).execute((Void[]) null);
                 return true;
         }
         return false;
@@ -62,6 +64,12 @@ public class QuotesListActivity extends AppCompatActivity {
 
     class SynchronizeTask extends AsyncTask<Void, Void, String> {
         private final ProgressDialog dialog = new ProgressDialog(QuotesListActivity.this);
+        private QuoteManager quoteManager;
+
+        public SynchronizeTask(QuoteManager quoteManager) {
+
+            this.quoteManager = quoteManager;
+        }
 
         @Override
         protected String doInBackground(Void... voids) {
@@ -92,7 +100,8 @@ public class QuotesListActivity extends AppCompatActivity {
                         Log.d("Sync", quote.toString());
                         String documentUuid = quote.getDocumentUuid();
                         if (!downloadedBooks.contains(documentUuid)) {
-                            downloadBook(bookmate, documentUuid);
+                            Book book = downloadBook(bookmate, documentUuid);
+                            storeIfNotExist(book, quoteManager);
                             downloadedBooks.add(documentUuid);
                         } else {
                             Log.d("Sync", "Book with uuid [" + documentUuid + "] is already downloaded");
@@ -107,15 +116,21 @@ public class QuotesListActivity extends AppCompatActivity {
             Log.d("Sync", "Total Quotes downloaded: " + quoteCount);
         }
 
-        private void downloadBook(Bookmate bookmate, String documentUuid) {
+        private void storeIfNotExist(Book book, QuoteManager quoteManager) {
+           // quoteManager.qetSourceId
+        }
+
+        private Book downloadBook(Bookmate bookmate, String documentUuid) {
             Call<Book> bookCall = bookmate.book(documentUuid);
             try {
                 Response<Book> response = bookCall.execute();
                 Book book = response.body();
                 Log.d("Sync", book.toString());
+                return book;
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            return null;
         }
 
         @Override
