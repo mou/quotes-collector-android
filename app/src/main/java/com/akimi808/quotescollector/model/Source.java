@@ -9,12 +9,14 @@ public class Source {
     private String title;
     private String type;
     private String application;
+    private String externalId;
 
-    public Source(Long id, String title, String type, String application) {
+    public Source(Long id, String title, String type, String application, String externalId) {
         this.id = id;
         this.title = title;
         this.type = type;
         this.application = application;
+        this.externalId = externalId;
     }
 
     public Long getId() {
@@ -31,5 +33,9 @@ public class Source {
 
     public String getApplication() {
         return application;
+    }
+
+    public String getExternalId() {
+        return externalId;
     }
 }

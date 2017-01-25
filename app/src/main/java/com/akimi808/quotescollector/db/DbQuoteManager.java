@@ -1,5 +1,6 @@
 package com.akimi808.quotescollector.db;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -43,24 +44,28 @@ public class DbQuoteManager implements QuoteManager {
                     "s.title source_title, " +
                     "s.type source_type, " +
                     "s.application source_application, " +
+                    "s.external_id source_external_id, " +
                     "a.id author_id, " +
-                    "a.name author_name " +
+                    "a.name author_name, " +
                     "FROM quotes q " +
                     "JOIN authors a ON q.author_id = a.id " +
                     "JOIN sources s ON q.source_id = s.id " +
                     "ORDER BY q.id asc " +
                     "LIMIT " + limit, null);
             if (cursor.moveToFirst()) {
-                Long id = cursor.getLong(cursor.getColumnIndex("quote_id"));
                 String text = cursor.getString(cursor.getColumnIndex("quote_text"));
                 Long authorId = cursor.getLong(cursor.getColumnIndex("author_id"));
                 String authorName = cursor.getString(cursor.getColumnIndex("author_name"));
+                Author author = new Author(authorId, authorName);
+
                 Long sourceId = cursor.getLong(cursor.getColumnIndex("source_id"));
+                String sourceExternalId = cursor.getString(cursor.getColumnIndex("source_external_id"));
                 String sourceTitle = cursor.getString(cursor.getColumnIndex("source_title"));
                 String sourceType = cursor.getString(cursor.getColumnIndex("source_type"));
                 String sourceApp = cursor.getString(cursor.getColumnIndex("source_application"));
-                Author author = new Author(authorId, authorName);
-                Source book = new Source(sourceId, sourceTitle, sourceType, sourceApp);
+                Source book = new Source(sourceId, sourceTitle, sourceType, sourceApp, sourceExternalId);
+
+                Long id = cursor.getLong(cursor.getColumnIndex("quote_id"));
                 String externalId = cursor.getString(cursor.getColumnIndex("external_id"));
                 String application = cursor.getString(cursor.getColumnIndex("quote_application"));
                 Quote quote = new Quote(id, text, externalId, author, book, application);
@@ -73,5 +78,31 @@ public class DbQuoteManager implements QuoteManager {
             }
         }
         throw new RuntimeException();
+    }
+
+    @Override
+    public boolean isSourceStored(String externalId, String application) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        String[] args = new String[] {externalId, application};
+        String[] columns = new String[] {"id"};
+        try {
+            cursor = db.query("sources", columns, "external_id = ? AND application = ?", args, null, null, null);
+            return cursor.moveToNext();
+        } finally {
+            if (cursor != null) { cursor.close();}
+        }
+    }
+
+    @Override
+    public void storeSource(Source source) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("title", source.getTitle());
+        values.put("type", source.getType());
+        values.put("application", source.getApplication());
+        values.put("external_id", source.getExternalId());
+        db.insert("sources", null, values);
+
     }
 }

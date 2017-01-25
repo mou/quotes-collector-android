@@ -7,6 +7,7 @@ import com.akimi808.quotescollector.db.versions.Migration2;
 import com.akimi808.quotescollector.db.versions.Migration3;
 import com.akimi808.quotescollector.db.versions.Migration4;
 import com.akimi808.quotescollector.db.versions.Migration5;
+import com.akimi808.quotescollector.db.versions.Migration6;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class MigrationManager {
         migrations.add(new Migration3());
         migrations.add(new Migration4());
         migrations.add(new Migration5());
+        migrations.add(new Migration6());
     }
     //дает миграцию до нужной версии
     public Migration getMigration(int ver) {

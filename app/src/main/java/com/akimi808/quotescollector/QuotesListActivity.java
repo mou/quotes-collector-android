@@ -15,6 +15,7 @@ import com.akimi808.bookmateclient.model.Book;
 import com.akimi808.bookmateclient.model.BookmateQuote;
 import com.akimi808.quotescollector.db.DbQuoteManager;
 import com.akimi808.quotescollector.db.QuoteDbOpenHelper;
+import com.akimi808.quotescollector.model.Source;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -101,7 +102,7 @@ public class QuotesListActivity extends AppCompatActivity {
                         String documentUuid = quote.getDocumentUuid();
                         if (!downloadedBooks.contains(documentUuid)) {
                             Book book = downloadBook(bookmate, documentUuid);
-                            storeIfNotExist(book, quoteManager);
+                            storeBookIfNotExist(book, quoteManager);
                             downloadedBooks.add(documentUuid);
                         } else {
                             Log.d("Sync", "Book with uuid [" + documentUuid + "] is already downloaded");
@@ -116,8 +117,11 @@ public class QuotesListActivity extends AppCompatActivity {
             Log.d("Sync", "Total Quotes downloaded: " + quoteCount);
         }
 
-        private void storeIfNotExist(Book book, QuoteManager quoteManager) {
-           // quoteManager.qetSourceId
+        private void storeBookIfNotExist(Book book, QuoteManager quoteManager) {
+           if (!quoteManager.isSourceStored(book.getUuid(), "Bookmate")) {
+               Source source = new Source(null, book.getTitle(), "book", "Bookmate", book.getUuid());
+               quoteManager.storeSource(source);
+           };
         }
 
         private Book downloadBook(Bookmate bookmate, String documentUuid) {

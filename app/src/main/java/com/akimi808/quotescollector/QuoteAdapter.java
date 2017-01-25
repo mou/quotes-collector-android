@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.akimi808.quotescollector.db.QuoteDbOpenHelper;
 import com.akimi808.quotescollector.model.Quote;
 
 /**
