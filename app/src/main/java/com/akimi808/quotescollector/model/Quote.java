@@ -5,9 +5,9 @@ package com.akimi808.quotescollector.model;
  */
 
 public class Quote {
-    private final Long id;
+    private final Long id; //уникальный идентификатор в нашем приложении
     private final String text;
-    private final String externalId;
+    private final String externalId; //уникальный идентификатор в стороннем сервисе
     private final Author author;
     private final Source source;
     private final String application;
