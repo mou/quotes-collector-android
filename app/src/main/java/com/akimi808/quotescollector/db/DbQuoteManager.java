@@ -105,4 +105,28 @@ public class DbQuoteManager implements QuoteManager {
         db.insert("sources", null, values);
 
     }
+
+    @Override
+    public boolean isAuthorStored(String authors) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        String[] args = new String[] {};
+        String[] columns = new String[] {"id"};
+        try {
+            cursor = db.query("authors", columns, "id = ? AND name = ?", args, null, null, null);
+            return cursor.moveToNext();
+        } finally {
+            if (cursor != null) { cursor.close();}
+        }
+    }
+
+    @Override
+    public void storeAuthor(Author author) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", author.getId());
+        values.put("name", author.getName());
+        db.insert("authors", null, values);
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.akimi808.quotescollector;
 
+import com.akimi808.quotescollector.model.Author;
 import com.akimi808.quotescollector.model.Quote;
 import com.akimi808.quotescollector.model.Source;
 
@@ -14,4 +15,8 @@ public interface QuoteManager {
     boolean isSourceStored(String externalId, String application);
 
     void storeSource(Source source);
+
+    boolean isAuthorStored(String authors);
+
+    void storeAuthor(Author author);
 }
