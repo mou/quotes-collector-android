@@ -11,6 +11,8 @@ import com.akimi808.quotescollector.model.Author;
 import com.akimi808.quotescollector.model.Quote;
 import com.akimi808.quotescollector.model.Source;
 
+import static android.R.attr.name;
+
 /**
  * Created by akimi808 on 13/12/2016.
  */
@@ -110,10 +112,10 @@ public class DbQuoteManager implements QuoteManager {
     public boolean isAuthorStored(String authors) {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = null;
-        String[] args = new String[] {};
+        String[] args = new String[] {authors};
         String[] columns = new String[] {"id"};
         try {
-            cursor = db.query("authors", columns, "id = ? AND name = ?", args, null, null, null);
+            cursor = db.query("authors", columns, "name = ?", args, null, null, null);
             return cursor.moveToNext();
         } finally {
             if (cursor != null) { cursor.close();}
@@ -124,9 +126,23 @@ public class DbQuoteManager implements QuoteManager {
     public void storeAuthor(Author author) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("id", author.getId());
         values.put("name", author.getName());
         db.insert("authors", null, values);
 
     }
-}
+
+    @Override
+    public boolean isQuoteStored(String externalId, String application) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        String[] args = new String[] {externalId, application};
+        String[] columns = new String[] {"id"}; //
+        try {
+            cursor = db.query("quotes", columns, "external_id = ? AND application = ?", args, null, null, null);
+            return cursor.moveToNext();
+        } finally {
+            if (cursor != null) { cursor.close();}
+        }
+    }
+    }
+

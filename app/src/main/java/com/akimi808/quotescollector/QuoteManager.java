@@ -19,4 +19,6 @@ public interface QuoteManager {
     boolean isAuthorStored(String authors);
 
     void storeAuthor(Author author);
+
+    boolean isQuoteStored(String uuid, String bookmate);
 }
