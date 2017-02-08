@@ -21,4 +21,10 @@ public interface QuoteManager {
     void storeAuthor(Author author);
 
     boolean isQuoteStored(String uuid, String bookmate);
+
+    Author qetAuthor(String authors);
+
+    Source qetSource(String externalId, String application);
+
+    void storeQuote(Quote quote);
 }

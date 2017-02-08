@@ -48,7 +48,7 @@ public class DbQuoteManager implements QuoteManager {
                     "s.application source_application, " +
                     "s.external_id source_external_id, " +
                     "a.id author_id, " +
-                    "a.name author_name, " +
+                    "a.name author_name " +
                     "FROM quotes q " +
                     "JOIN authors a ON q.author_id = a.id " +
                     "JOIN sources s ON q.source_id = s.id " +
@@ -136,7 +136,7 @@ public class DbQuoteManager implements QuoteManager {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = null;
         String[] args = new String[] {externalId, application};
-        String[] columns = new String[] {"id"}; //
+        String[] columns = new String[] {"id"};
         try {
             cursor = db.query("quotes", columns, "external_id = ? AND application = ?", args, null, null, null);
             return cursor.moveToNext();
@@ -144,5 +144,54 @@ public class DbQuoteManager implements QuoteManager {
             if (cursor != null) { cursor.close();}
         }
     }
+
+    @Override
+    public Author qetAuthor(String authors) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        String[] args = new String[] {authors};
+        String[] columns = new String[] {"id"};
+        try {
+            cursor = db.query("authors", columns, "name = ?", args, null, null, null);
+            cursor.moveToNext();
+            Long id = cursor.getLong(cursor.getColumnIndex("id"));
+            return new Author(id, authors);
+        } finally {
+            if (cursor != null) { cursor.close();}
+        }
+
     }
 
+    @Override
+    public Source qetSource(String externalId, String application) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        String[] args = new String[] {externalId, application};
+        String[] columns = new String[] {"id", "title", "type"};
+        try {
+            cursor = db.query("sources", columns, "external_id = ? AND application = ?", args, null, null, null);
+            cursor.moveToNext();
+            Long id = cursor.getLong(cursor.getColumnIndex("id"));
+            String title = cursor.getString(cursor.getColumnIndex("title"));
+            String type = cursor.getString(cursor.getColumnIndex("type"));
+            return new Source(id, title, type, application, externalId);
+        } finally {
+            if (cursor != null) { cursor.close();}
+        }
+
+
+    }
+
+    @Override
+    public void storeQuote(Quote quote) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", quote.getId());
+        values.put("text", quote.getText());
+        values.put("external_id", quote.getExternalId());
+        values.put("application", quote.getApplication());
+        values.put("source_id", quote.getSource().getId());
+        values.put("author_id", quote.getAuthor().getId());
+        db.insert("quotes", null, values);
+    }
+}
