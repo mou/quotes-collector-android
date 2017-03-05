@@ -53,6 +53,7 @@ class SynchronizeTask extends AsyncTask<Void, Void, String> {
         int quoteListSize = 0;
         int page = 1;
         int quoteCount = 0;
+        boolean wasStored = false;
         Set<String> downloadedBooks = new HashSet<>();
         Map<String, Source> storedSources = new HashMap<>();
         Map<String, Author> storedAuthors = new HashMap<>();
@@ -75,7 +76,7 @@ class SynchronizeTask extends AsyncTask<Void, Void, String> {
                     } else {
                         Log.d("Sync", "Book with uuid [" + documentUuid + "] is already downloaded");
                     }
-                    storeQuoteIfNotExist(quote, storedSources.get(documentUuid), storedAuthors.get(documentUuid));
+                    wasStored = wasStored || storeQuoteIfNotExist(quote, storedSources.get(documentUuid), storedAuthors.get(documentUuid));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -84,6 +85,9 @@ class SynchronizeTask extends AsyncTask<Void, Void, String> {
             quoteCount = quoteCount + quoteListSize;
         } while (quoteListSize == 10);
         Log.d("Sync", "Total Quotes downloaded: " + quoteCount);
+        if (wasStored) {
+            quoteManager.dataChanged();
+        }
     }
 
     private Author storeAuthorIfNotExist(Book book) {
@@ -104,12 +108,13 @@ class SynchronizeTask extends AsyncTask<Void, Void, String> {
         return quoteManager.qetSource(book.getUuid(), "Bookmate");
     }
 
-    private void storeQuoteIfNotExist(BookmateQuote bookmateQuote, Source source, Author author) {
+    private boolean storeQuoteIfNotExist(BookmateQuote bookmateQuote, Source source, Author author) {
         if (!quoteManager.isQuoteStored(bookmateQuote.getUuid(), "Bookmate")) {
             Quote quote = new Quote(null, bookmateQuote.getContent(), bookmateQuote.getUuid(), author, source, "Bookmate");
             quoteManager.storeQuote(quote);
-
+            return true;
         }
+        return false;
     }
 
 

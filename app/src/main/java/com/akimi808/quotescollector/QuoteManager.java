@@ -27,4 +27,16 @@ public interface QuoteManager {
     Source qetSource(String externalId, String application);
 
     void storeQuote(Quote quote);
+
+    void dataChanged();
+
+    void registerForDataChanged(DataChangedListener listener);
+
+    /**
+     * Created by akimi808 on 05/03/2017.
+     */
+
+    interface DataChangedListener {
+        void onDataChanged();
+    }
 }

@@ -12,11 +12,12 @@ import com.akimi808.quotescollector.model.Quote;
 /**
  * Created by akimi808 on 02/12/16.
  */
-public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder> {
+public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder> implements QuoteManager.DataChangedListener {
     private QuoteManager quoteManager;
 
     public QuoteAdapter(QuoteManager quoteManager) {
         this.quoteManager = quoteManager;
+        quoteManager.registerForDataChanged(this);
     }
 
     //метод вызывается, когда RecyclerView нуждается еще одном экз. View элемента
@@ -37,6 +38,11 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     @Override
     public int getItemCount() {
         return quoteManager.getQuoteCount();
+    }
+
+    @Override
+    public void onDataChanged() {
+
     }
 
     public static class QuoteViewHolder extends RecyclerView.ViewHolder {

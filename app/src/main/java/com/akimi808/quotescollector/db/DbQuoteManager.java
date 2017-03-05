@@ -11,7 +11,8 @@ import com.akimi808.quotescollector.model.Author;
 import com.akimi808.quotescollector.model.Quote;
 import com.akimi808.quotescollector.model.Source;
 
-import static android.R.attr.name;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by akimi808 on 13/12/2016.
@@ -19,6 +20,7 @@ import static android.R.attr.name;
 
 public class DbQuoteManager implements QuoteManager {
     private QuoteDbOpenHelper helper;
+    private List<DataChangedListener> listeners = new ArrayList<>();
 
     public DbQuoteManager(QuoteDbOpenHelper helper) {
         this.helper = helper;
@@ -193,5 +195,17 @@ public class DbQuoteManager implements QuoteManager {
         values.put("source_id", quote.getSource().getId());
         values.put("author_id", quote.getAuthor().getId());
         db.insert("quotes", null, values);
+    }
+
+    @Override
+    public void dataChanged() {
+        for (DataChangedListener listener : listeners) {
+            listener.onDataChanged();
+        }
+    }
+
+    @Override
+    public void registerForDataChanged(DataChangedListener listener) {
+        listeners.add(listener);
     }
 }
