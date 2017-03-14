@@ -6,6 +6,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.akimi808.quotescollector.QuoteAdapter;
 import com.akimi808.quotescollector.QuoteManager;
 import com.akimi808.quotescollector.model.Author;
 import com.akimi808.quotescollector.model.Quote;
@@ -195,6 +196,7 @@ public class DbQuoteManager implements QuoteManager {
         values.put("source_id", quote.getSource().getId());
         values.put("author_id", quote.getAuthor().getId());
         db.insert("quotes", null, values);
+        dataChanged(); //говорим, что событие наступило
     }
 
     @Override

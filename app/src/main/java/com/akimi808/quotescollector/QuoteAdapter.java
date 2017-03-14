@@ -14,6 +14,7 @@ import com.akimi808.quotescollector.model.Quote;
  */
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder> implements QuoteManager.DataChangedListener {
     private QuoteManager quoteManager;
+    private RecyclerView recyclerView;
 
     public QuoteAdapter(QuoteManager quoteManager) {
         this.quoteManager = quoteManager;
@@ -40,10 +41,18 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
         return quoteManager.getQuoteCount();
     }
 
+    //метод, который будет вызван QuoteManager'ом,когда данные изменятся, и хотим, чтоб QuoteAdapter уведомили о том, что данные изм.
     @Override
     public void onDataChanged() {
-
+        notifyDataSetChanged();
     }
+
+    //вызывается, когда RV устанавливает адаптер для последующей работы, сохраняем экземпляр к себе в поле,
+    //чтобы обратиться к RV в методе onDataChanged();
+//    @Override
+//    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+//         this.recyclerView = recyclerView;
+//    }
 
     public static class QuoteViewHolder extends RecyclerView.ViewHolder {
 
