@@ -4,4 +4,7 @@
 
     <item android:title="Synchronize"
         android:id="@+id/main_menu_sync" />
+
+    <item android:title="Clear DB"
+        android:id="@+id/main_menu_clear_db" />
 </menu>

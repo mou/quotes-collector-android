@@ -210,4 +210,11 @@ public class DbQuoteManager implements QuoteManager {
     public void registerForDataChanged(DataChangedListener listener) {
         listeners.add(listener);
     }
+
+    @Override
+    public void deleteQuotes() {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.delete("quotes", null, null);
+        dataChanged();
+    }
 }

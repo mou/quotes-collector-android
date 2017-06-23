@@ -32,6 +32,9 @@ public interface QuoteManager {
 
     void registerForDataChanged(DataChangedListener listener);
 
+    void deleteQuotes();
+
+
     /**
      * Created by akimi808 on 05/03/2017.
      */

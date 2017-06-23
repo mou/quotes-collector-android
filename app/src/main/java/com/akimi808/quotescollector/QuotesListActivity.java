@@ -42,8 +42,17 @@ public class QuotesListActivity extends AppCompatActivity {
             case R.id.main_menu_sync:
                 new SynchronizeTask(this, quoteManager).execute((Void[]) null);
                 return true;
+            case R.id.main_menu_clear_db:
+                clearDb();
+                return true;
         }
         return false;
+    }
+
+    private void clearDb() {
+        new ClearDbTask(this, quoteManager).execute((Void[]) null);
+
+
     }
 
 
