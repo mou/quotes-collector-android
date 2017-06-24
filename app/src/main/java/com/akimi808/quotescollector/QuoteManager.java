@@ -14,11 +14,11 @@ public interface QuoteManager {
 
     boolean isSourceStored(String externalId, String application);
 
-    void storeSource(Source source);
+    Source storeSource(Source source);
 
     boolean isAuthorStored(String authors);
 
-    void storeAuthor(Author author);
+    Author storeAuthor(Author author);
 
     boolean isQuoteStored(String uuid, String bookmate);
 
@@ -26,7 +26,7 @@ public interface QuoteManager {
 
     Source qetSource(String externalId, String application);
 
-    void storeQuote(Quote quote);
+    Quote storeQuote(Quote quote);
 
     void dataChanged();
 

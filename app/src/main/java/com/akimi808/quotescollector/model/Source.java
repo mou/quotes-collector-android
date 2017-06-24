@@ -38,4 +38,8 @@ public class Source {
     public String getExternalId() {
         return externalId;
     }
+
+    public Source withId(long sourceId) {
+        return new Source(sourceId, title, type, application, externalId);
+    }
 }
