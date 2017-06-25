@@ -6,7 +6,6 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.akimi808.quotescollector.QuoteAdapter;
 import com.akimi808.quotescollector.QuoteManager;
 import com.akimi808.quotescollector.model.Author;
 import com.akimi808.quotescollector.model.Quote;
@@ -100,15 +99,15 @@ public class DbQuoteManager implements QuoteManager {
     }
 
     @Override
-    public void storeSource(Source source) {
+    public Source storeSource(Source source) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("title", source.getTitle());
         values.put("type", source.getType());
         values.put("application", source.getApplication());
         values.put("external_id", source.getExternalId());
-        db.insert("sources", null, values);
-
+        long sourceId = db.insert("sources", null, values);
+        return source.withId(sourceId);
     }
 
     @Override
@@ -126,12 +125,12 @@ public class DbQuoteManager implements QuoteManager {
     }
 
     @Override
-    public void storeAuthor(Author author) {
+    public Author storeAuthor(Author author) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", author.getName());
-        db.insert("authors", null, values);
-
+        long authorId = db.insert("authors", null, values);
+        return author.withId(authorId);
     }
 
     @Override
@@ -186,7 +185,7 @@ public class DbQuoteManager implements QuoteManager {
     }
 
     @Override
-    public void storeQuote(Quote quote) {
+    public Quote storeQuote(Quote quote) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id", quote.getId());
@@ -195,8 +194,9 @@ public class DbQuoteManager implements QuoteManager {
         values.put("application", quote.getApplication());
         values.put("source_id", quote.getSource().getId());
         values.put("author_id", quote.getAuthor().getId());
-        db.insert("quotes", null, values);
+        long quoteId = db.insert("quotes", null, values);
         dataChanged(); //говорим, что событие наступило
+        return quote.withId(quoteId);
     }
 
     @Override

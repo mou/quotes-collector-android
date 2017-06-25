@@ -26,7 +26,7 @@ public class QuotesListActivity extends AppCompatActivity {
 
         rv.setLayoutManager(llm);
         quoteManager = new DbQuoteManager(new QuoteDbOpenHelper(this, getResources()));
-        rv.setAdapter(new QuoteAdapter(quoteManager));
+        rv.setAdapter(new QuoteAdapter(quoteManager, this));
     }
 
     @Override

@@ -54,4 +54,8 @@ public class Quote {
                 ", source=" + source +
                 '}';
     }
+
+    public Quote withId(long quoteId) {
+        return new Quote(quoteId, text, externalId, author, source, application);
+    }
 }

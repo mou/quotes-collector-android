@@ -76,7 +76,7 @@ class SynchronizeTask extends AsyncTask<Void, Void, String> {
                     } else {
                         Log.d("Sync", "Book with uuid [" + documentUuid + "] is already downloaded");
                     }
-                    wasStored = wasStored || storeQuoteIfNotExist(quote, storedSources.get(documentUuid), storedAuthors.get(documentUuid));
+                    wasStored = storeQuoteIfNotExist(quote, storedSources.get(documentUuid), storedAuthors.get(documentUuid)) || wasStored;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -93,8 +93,7 @@ class SynchronizeTask extends AsyncTask<Void, Void, String> {
     private Author storeAuthorIfNotExist(Book book) {
         if (!quoteManager.isAuthorStored(book.getAuthors())) {
             Author author = new Author(null, book.getAuthors());
-            quoteManager.storeAuthor(author);
-            return author;
+            return quoteManager.storeAuthor(author);
         }
         return quoteManager.qetAuthor(book.getAuthors());
     }
@@ -102,8 +101,7 @@ class SynchronizeTask extends AsyncTask<Void, Void, String> {
     private Source storeBookIfNotExist(Book book) {
         if (!quoteManager.isSourceStored(book.getUuid(), "Bookmate")) {
             Source source = new Source(null, book.getTitle(), "book", "Bookmate", book.getUuid());
-            quoteManager.storeSource(source);
-            return source;
+            return quoteManager.storeSource(source);
         }
         return quoteManager.qetSource(book.getUuid(), "Bookmate");
     }

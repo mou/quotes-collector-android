@@ -1,5 +1,6 @@
 package com.akimi808.quotescollector;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,12 @@ import com.akimi808.quotescollector.model.Quote;
  */
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder> implements QuoteManager.DataChangedListener {
     private QuoteManager quoteManager;
+    private Activity activity;
     private RecyclerView recyclerView;
 
-    public QuoteAdapter(QuoteManager quoteManager) {
+    public QuoteAdapter(QuoteManager quoteManager, Activity activity) {
         this.quoteManager = quoteManager;
+        this.activity = activity;
         quoteManager.registerForDataChanged(this);
     }
 
@@ -44,7 +47,12 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     //метод, который будет вызван QuoteManager'ом,когда данные изменятся, и хотим, чтоб QuoteAdapter уведомили о том, что данные изм.
     @Override
     public void onDataChanged() {
-        notifyDataSetChanged();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+            }
+        });
     }
 
     //вызывается, когда RV устанавливает адаптер для последующей работы, сохраняем экземпляр к себе в поле,

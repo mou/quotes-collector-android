@@ -28,4 +28,8 @@ public class Author {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public Author withId(long authorId) {
+        return new Author(authorId, name);
+    }
 }
