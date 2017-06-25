@@ -76,6 +76,8 @@ class SynchronizeTask extends AsyncTask<Void, Void, String> {
                     } else {
                         Log.d("Sync", "Book with uuid [" + documentUuid + "] is already downloaded");
                     }
+                    //Обращать внимание на порядок операндов, т.к. метод должен быть вызван всегда
+                    // (если wasStored = true и стоит на первом месте, то второй операнд не будет вычисляться)
                     wasStored = storeQuoteIfNotExist(quote, storedSources.get(documentUuid), storedAuthors.get(documentUuid)) || wasStored;
                 }
             } catch (IOException e) {

@@ -45,6 +45,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     }
 
     //метод, который будет вызван QuoteManager'ом,когда данные изменятся, и хотим, чтоб QuoteAdapter уведомили о том, что данные изм.
+    //поскольку изменение данных влечет обновление UI, а он может модет быть обнволен только из специального потока, имеющего доступ к UI loop,
+    //добавив метод runOnUiThread
     @Override
     public void onDataChanged() {
         activity.runOnUiThread(new Runnable() {

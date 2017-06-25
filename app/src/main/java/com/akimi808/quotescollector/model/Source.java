@@ -39,6 +39,7 @@ public class Source {
         return externalId;
     }
 
+    // Т.к. нет методов для изменения состояния объекта, то класс является immutable, чтобы сохранить это свойство, используем этот метод для изменения id
     public Source withId(long sourceId) {
         return new Source(sourceId, title, type, application, externalId);
     }
