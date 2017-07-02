@@ -25,7 +25,7 @@ public class QuotesListActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
         rv.setLayoutManager(llm);
-        quoteManager = new DbQuoteManager(new QuoteDbOpenHelper(this, getResources()));
+        quoteManager = DbQuoteManager.getInstance(this);
         rv.setAdapter(new QuoteAdapter(quoteManager, this));
     }
 

@@ -14,9 +14,9 @@ public class QuoteDbOpenHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VER = 6;
     private final MigrationManager migrationManager;
 
-    public QuoteDbOpenHelper(Context context, Resources resources) {
+    public QuoteDbOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VER);
-        migrationManager = new MigrationManager(resources);
+        migrationManager = new MigrationManager(context.getResources());
     }
 
     @Override
