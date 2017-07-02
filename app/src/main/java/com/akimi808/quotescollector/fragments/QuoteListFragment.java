@@ -4,11 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.akimi808.quotescollector.QuoteAdapter;
 import com.akimi808.quotescollector.R;
+import com.akimi808.quotescollector.db.DbQuoteManager;
+import com.akimi808.quotescollector.db.QuoteDbOpenHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +34,7 @@ public class QuoteListFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private DbQuoteManager quoteManager;
 
     public QuoteListFragment() {
         // Required empty public constructor
@@ -59,13 +65,23 @@ public class QuoteListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        quoteManager = DbQuoteManager.getInstance(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quote_list, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_quote_list, container, false);
+        RecyclerView rv = (RecyclerView) fragmentView.findViewById(R.id.quotes_recycler_view);
+        rv.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+
+        rv.setLayoutManager(llm);
+        rv.setAdapter(new QuoteAdapter(quoteManager, getActivity()));
+
+        return fragmentView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,12 +94,12 @@ public class QuoteListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override

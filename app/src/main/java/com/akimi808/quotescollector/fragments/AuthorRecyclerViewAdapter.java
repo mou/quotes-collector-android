@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.akimi808.quotescollector.fragments.AuthorFragment.OnListFragmentInteractionListener;
 import com.akimi808.quotescollector.fragments.dummy.DummyContent.DummyItem;
+import com.akimi808.quotescollector.R;
 
 import java.util.List;
 

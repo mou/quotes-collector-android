@@ -1,6 +1,7 @@
 package com.akimi808.quotescollector.db;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,8 +20,17 @@ import java.util.List;
  */
 
 public class DbQuoteManager implements QuoteManager {
+    public static DbQuoteManager instance;
+
     private QuoteDbOpenHelper helper;
     private List<DataChangedListener> listeners = new ArrayList<>();
+
+    public static synchronized DbQuoteManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new DbQuoteManager(new QuoteDbOpenHelper(context));
+        }
+        return instance;
+    }
 
     public DbQuoteManager(QuoteDbOpenHelper helper) {
         this.helper = helper;
