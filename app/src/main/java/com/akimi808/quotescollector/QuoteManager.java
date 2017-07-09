@@ -1,5 +1,6 @@
 package com.akimi808.quotescollector;
 
+import com.akimi808.quotescollector.fragments.AuthorRecyclerViewAdapter;
 import com.akimi808.quotescollector.model.Author;
 import com.akimi808.quotescollector.model.Quote;
 import com.akimi808.quotescollector.model.Source;
@@ -33,6 +34,16 @@ public interface QuoteManager {
     void registerForDataChanged(DataChangedListener listener);
 
     void deleteQuotes();
+
+    int getAuthorCount();
+
+    Author getAuthorByIndex(int index);
+
+    void deregisterForDataChanged(DataChangedListener listener);
+
+    Source getSourceByIndex(int index);
+
+    int getSourceCount();
 
 
     /**

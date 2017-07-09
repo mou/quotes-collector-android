@@ -5,27 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.akimi808.quotescollector.QuoteManager;
 import com.akimi808.quotescollector.R;
 
 
-import com.akimi808.quotescollector.fragments.SourceFragment.OnListFragmentInteractionListener;
+import com.akimi808.quotescollector.fragments.SourceFragment.OnSourceFragmentInteractionListener;
 import com.akimi808.quotescollector.fragments.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import com.akimi808.quotescollector.model.Source;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link OnSourceFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class SourceRecyclerViewAdapter extends RecyclerView.Adapter<SourceRecyclerViewAdapter.ViewHolder> {
+public class SourceRecyclerViewAdapter extends RecyclerView.Adapter<SourceRecyclerViewAdapter.ViewHolder> implements QuoteManager.DataChangedListener {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private QuoteManager quoteManager;
+    private final OnSourceFragmentInteractionListener listener;
 
-    public SourceRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    public SourceRecyclerViewAdapter(QuoteManager quoteManager, OnSourceFragmentInteractionListener listener) {
+        this.quoteManager = quoteManager;
+        this.listener = listener;
     }
 
     @Override
@@ -37,17 +38,18 @@ public class SourceRecyclerViewAdapter extends RecyclerView.Adapter<SourceRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        Source source = quoteManager.getSourceByIndex(position);
+        holder.source = source;
+        holder.idView.setText(source.getId().toString());
+        holder.titleView.setText(source.getTitle());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
+                if (null != listener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    listener.onSourceClicked(holder.source);
                 }
             }
         });
@@ -55,25 +57,42 @@ public class SourceRecyclerViewAdapter extends RecyclerView.Adapter<SourceRecycl
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return quoteManager.getSourceCount();
+    }
+
+    @Override
+    public void onDataChanged() {
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        quoteManager.registerForDataChanged(this);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        quoteManager.deregisterForDataChanged(this);
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        private final View view;
+        private final TextView idView;
+        private final TextView titleView;
+        private Source source;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            this.view = view;
+            idView = (TextView) view.findViewById(R.id.id);
+            titleView = (TextView) view.findViewById(R.id.content);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + titleView.getText() + "'";
         }
     }
 }
